@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:petmily/ui/ble_test_screen.dart';
 
 class MainScreen extends StatelessWidget {
   const MainScreen({super.key});
@@ -7,7 +9,13 @@ class MainScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text("펫밀리")),
-      body: Column(children: []),
+      body: Column(children: [
+        ElevatedButton(
+            onPressed: () {
+              Get.to(() => const BLETestScreen());
+            },
+            child: const Text("BLE Test Screen"))
+      ]),
     );
   }
 }
