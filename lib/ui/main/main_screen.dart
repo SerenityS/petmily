@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:petmily/ui/ble_test_screen.dart';
+import 'package:petmily/ui/main/widget/bottom_nav_bar.dart';
 
 class MainScreen extends StatelessWidget {
   const MainScreen({super.key});
@@ -16,6 +17,7 @@ class MainScreen extends StatelessWidget {
             },
             child: const Text("BLE Test Screen"))
       ]),
+      bottomNavigationBar: BottomNavBar(key: key),
     );
   }
 }

@@ -3,11 +3,13 @@ import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 import 'package:get/get.dart';
+import 'package:petmily/ui/init_setting/wifi_setting_screen.dart';
 
 class BLEController extends GetxController {
   FlutterBluePlus flutterBlue = FlutterBluePlus.instance;
 
-  bool _isScanning = false;
+  RxBool isScanning = false.obs;
+  RxBool isFound = false.obs;
 
   ScanResult? device;
   BluetoothDeviceState deviceState = BluetoothDeviceState.disconnected;
@@ -15,15 +17,17 @@ class BLEController extends GetxController {
 
   List<BluetoothService> bleServices = [];
   List<int> tagData = [];
+  RxString tagString = "".obs;
 
   BluetoothCharacteristic? readChar;
   BluetoothCharacteristic? writeChar;
   StreamSubscription<List<int>>? _subscription;
 
   @override
-  void onInit() {
+  void onInit() async {
     super.onInit();
     initBle();
+    await scan();
   }
 
   @override
@@ -34,23 +38,23 @@ class BLEController extends GetxController {
   }
 
   void initBle() {
-    flutterBlue.isScanning.listen((isScanning) {
-      _isScanning = isScanning;
+    flutterBlue.isScanning.listen((val) {
+      isScanning.value = val;
     });
   }
 
-  void scan() async {
-    if (!_isScanning) {
-      flutterBlue.startScan(timeout: const Duration(seconds: 4));
+  Future<void> scan() async {
+    if (!isScanning.value) {
+      flutterBlue.startScan(timeout: const Duration(seconds: 10));
       flutterBlue.scanResults.listen((results) {
         for (ScanResult r in results) {
           print(r.device.name);
-          print(r.advertisementData.localName);
           if (r.device.name == "Petmily") {
             device = r;
-            Get.snackbar('Information', '${r.device.name} found! rssi: ${r.rssi}');
+            isFound.value = true;
+            print('${r.device.name} found! rssi: ${r.rssi}');
             flutterBlue.stopScan();
-            return;
+            //connect();
           }
         }
       });
@@ -67,21 +71,25 @@ class BLEController extends GetxController {
         const Duration(seconds: 10),
         onTimeout: () {
           returnValue = Future.value(false);
-          Get.snackbar('Information', "Connection timeout");
+          debugPrint("Connection timeout");
         },
-      ).then((value) {
+      ).then((value) async {
         if (returnValue == null) {
           returnValue = Future.value(true);
           deviceState = BluetoothDeviceState.connected;
           deviceStateSubscription = device!.device.state.listen((s) {
             deviceState = s;
           });
-          Get.snackbar('Information', "Connection success");
+          //await findServices().then((_) => enableGetTag());
+          debugPrint("Connection success");
+
+          //await Future.delayed(const Duration(seconds: 3))
+          //.then((_) => Get.to(() => const RegisterTagScreen(), transition: Transition.fadeIn));
         }
       });
       return returnValue ?? Future.value(false);
     } else {
-      Get.snackbar('Information', "Already connected");
+      debugPrint("Already connected");
       return Future.value(false);
     }
   }
@@ -93,7 +101,7 @@ class BLEController extends GetxController {
     Get.snackbar('Information', "Disconnected");
   }
 
-  void findServices() async {
+  Future<void> findServices() async {
     bleServices.clear();
     bleServices = await device!.device.discoverServices();
 
@@ -115,18 +123,19 @@ class BLEController extends GetxController {
   void enableGetTag() async {
     tagData.clear();
     await readChar!.setNotifyValue(true);
-    _subscription = readChar!.value.listen((event) {
+    _subscription = readChar!.value.listen((event) async {
       if (event.isNotEmpty) {
         tagData.add(event[0]);
 
         if (tagData.length == 13) {
-          String tagStr = "";
-
           for (int tagInt in tagData) {
-            tagStr += tagInt.toRadixString(16).padLeft(2, '0');
+            tagString.value += tagInt.toRadixString(16).padLeft(2, '0');
           }
-          print("tagStr: ${tagStr.toUpperCase().substring(8, 24)}");
+          print("tagStr: ${tagString.value.toUpperCase().substring(8, 24)}");
           tagData.clear();
+
+          await Future.delayed(const Duration(seconds: 3))
+              .then((_) => Get.to(() => const WifiSettingScreen(), transition: Transition.fadeIn));
         }
       }
     });
@@ -137,9 +146,9 @@ class BLEController extends GetxController {
     _subscription!.cancel();
   }
 
-  void write() async {
+  void write(String json) async {
     if (deviceState == BluetoothDeviceState.connected && writeChar != null) {
-      writeChar!.write('{"ssid": "jins4218", "pw": "2"}'.codeUnits);
+      writeChar!.write(json.codeUnits);
     }
   }
 
@@ -152,25 +161,4 @@ class BLEController extends GetxController {
   void clear() {
     device!.device.clearGattCache();
   }
-
-  // void connect(ScanResult r) async {
-  //   r.device.connect(autoConnect: false).then((data) async {
-  //     bleServices.clear();
-  //     List<BluetoothService> bleService = await r.device.discoverServices();
-  //     for (BluetoothService service in bleService) {
-  //       for (BluetoothCharacteristic c in service.characteristics) {
-  //         if (c.properties.write) {
-  //           print('\tcharacteristic UUID: ${c.uuid.toString()}');
-  //           print('\t\twrite: ${c.properties.write}');
-  //           print('\t\tread: ${c.properties.read}');
-  //           print('\t\tnotify: ${c.properties.notify}');
-  //           print('\t\tisNotifying: ${c.isNotifying}');
-  //           print('\t\twriteWithoutResponse: ${c.properties.writeWithoutResponse}');
-  //           print('\t\tindicate: ${c.properties.indicate}');
-  //           c.write('{"ssid": "jins4218", "pw": "2"}'.codeUnits);
-  //         }
-  //       }
-  //     }
-  //   });
-  // }
 }

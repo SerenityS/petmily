@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:petmily/ui/main_screen.dart';
+import 'package:petmily/ui/init_setting/init_setting_screen.dart';
 
 class LoginScreen extends StatelessWidget {
   LoginScreen({super.key});
@@ -26,7 +26,7 @@ class LoginScreen extends StatelessWidget {
             padding: const EdgeInsets.all(10.0),
             child: ElevatedButton(
                 onPressed: () {
-                  Get.off(() => const MainScreen());
+                  Get.off(() => InitSettingScreen());
                 },
                 child: const Padding(
                   padding: EdgeInsets.all(10.0),

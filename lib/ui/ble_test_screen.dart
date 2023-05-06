@@ -11,9 +11,12 @@ class BLETestScreen extends StatefulWidget {
 
 class _BLETestScreenState extends State<BLETestScreen> {
   final BLEController _bleController = Get.put(BLEController());
+  final TextEditingController _bleMessageController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
+    _bleMessageController.text = '{"ssid": "jins4218", "pw": "2"}';
+
     return Scaffold(
       appBar: AppBar(title: const Text("펫밀리")),
       body: Column(children: [
@@ -37,11 +40,26 @@ class _BLETestScreenState extends State<BLETestScreen> {
               _bleController.disconnect();
             },
             child: const Text("Disconnect")),
-        ElevatedButton(
-            onPressed: () {
-              _bleController.write();
-            },
-            child: const Text("Write")),
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Card(
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                children: [
+                  TextField(
+                    controller: _bleMessageController,
+                  ),
+                  ElevatedButton(
+                      onPressed: () {
+                        _bleController.write(_bleMessageController.text);
+                      },
+                      child: const Text("Write")),
+                ],
+              ),
+            ),
+          ),
+        ),
         ElevatedButton(
             onPressed: () {
               _bleController.enableGetTag();
