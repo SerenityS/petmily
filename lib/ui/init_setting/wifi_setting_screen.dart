@@ -1,21 +1,25 @@
 import 'package:avatar_glow/avatar_glow.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:petmily/controller/ble_controller.dart';
 import 'package:petmily/controller/wifi_controller.dart';
 import 'package:petmily/ui/init_setting/delayed_animation.dart';
-import 'package:petmily/ui/init_setting/finish_setting_screen.dart';
 import 'package:wifi_scan/wifi_scan.dart';
 
 class WifiSettingScreen extends StatelessWidget {
-  const WifiSettingScreen({super.key});
+  WifiSettingScreen({super.key});
 
-  Widget wifiPwDialog(WifiController controller, String ssid) {
+  final BLEController bleController = Get.put(BLEController());
+
+  Widget wifiPwDialog(String ssid) {
+    TextEditingController pwController = TextEditingController();
     return AlertDialog(
       title: Text(ssid),
-      content: const TextField(
+      content: TextField(
         autofocus: true,
         obscureText: true,
-        decoration: InputDecoration(hintText: "비밀번호"),
+        controller: pwController,
+        decoration: const InputDecoration(hintText: "비밀번호"),
       ),
       actions: [
         TextButton(
@@ -26,12 +30,8 @@ class WifiSettingScreen extends StatelessWidget {
         TextButton(
             onPressed: () async {
               Get.back();
-              controller.isConnecting.value = true;
-              await Future.delayed(const Duration(seconds: 5)).then((value) async {
-                controller.isConnecting.value = false;
-                controller.isConnected.value = true;
-                await Future.delayed(const Duration(seconds: 5)).then((value) => Get.to(() => FinishSettingScreen()));
-              });
+              await bleController.enableGetWifiStatus();
+              await bleController.writeWifi(ssid, pwController.text);
             },
             child: const Text('연결')),
       ],
@@ -41,8 +41,6 @@ class WifiSettingScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     const color = Colors.white;
-
-    final WifiController _wifiController = Get.put(WifiController());
 
     return Scaffold(
       backgroundColor: const Color(0xFF8185E2),
@@ -122,7 +120,7 @@ class WifiSettingScreen extends StatelessWidget {
                                     children: [
                                       InkWell(
                                         onTap: () {
-                                          showDialog(context: context, builder: (context) => wifiPwDialog(controller, ap.ssid));
+                                          showDialog(context: context, builder: (context) => wifiPwDialog(ap.ssid));
                                         },
                                         child: Padding(
                                           padding: const EdgeInsets.all(10.0),

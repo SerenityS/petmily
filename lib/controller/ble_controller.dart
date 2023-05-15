@@ -1,11 +1,17 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 import 'package:get/get.dart';
+import 'package:petmily/controller/wifi_controller.dart';
+import 'package:petmily/ui/init_setting/finish_setting_screen.dart';
+import 'package:petmily/ui/init_setting/register_tag_screen.dart';
 import 'package:petmily/ui/init_setting/wifi_setting_screen.dart';
 
 class BLEController extends GetxController {
+  final WifiController _wifiController = Get.put(WifiController());
+
   FlutterBluePlus flutterBlue = FlutterBluePlus.instance;
 
   RxBool isScanning = false.obs;
@@ -54,7 +60,7 @@ class BLEController extends GetxController {
             isFound.value = true;
             print('${r.device.name} found! rssi: ${r.rssi}');
             flutterBlue.stopScan();
-            //connect();
+            connect();
           }
         }
       });
@@ -80,11 +86,11 @@ class BLEController extends GetxController {
           deviceStateSubscription = device!.device.state.listen((s) {
             deviceState = s;
           });
-          //await findServices().then((_) => enableGetTag());
+          await findServices().then((_) => enableGetTag());
           debugPrint("Connection success");
 
-          //await Future.delayed(const Duration(seconds: 3))
-          //.then((_) => Get.to(() => const RegisterTagScreen(), transition: Transition.fadeIn));
+          await Future.delayed(const Duration(seconds: 3))
+              .then((_) => Get.to(() => const RegisterTagScreen(), transition: Transition.fadeIn));
         }
       });
       return returnValue ?? Future.value(false);
@@ -134,22 +140,50 @@ class BLEController extends GetxController {
           print("tagStr: ${tagString.value.toUpperCase().substring(8, 24)}");
           tagData.clear();
 
-          await Future.delayed(const Duration(seconds: 3))
-              .then((_) => Get.to(() => const WifiSettingScreen(), transition: Transition.fadeIn));
+          await disableNotify();
+
+          await Future.delayed(const Duration(seconds: 3)).then((_) => Get.to(() => WifiSettingScreen(), transition: Transition.fadeIn));
         }
       }
     });
   }
 
-  void disableGetTag() async {
+  enableGetWifiStatus() async {
+    await readChar!.setNotifyValue(true);
+    _subscription = readChar!.value.listen((event) async {
+      if (event.isNotEmpty) {
+        var wifiJson = "";
+        for (var element in event) {
+          wifiJson += String.fromCharCode(element);
+        }
+        if (json.decode(wifiJson)["wifi"] == 1) {
+          _wifiController.isConnected.value = true;
+          _wifiController.isConnecting.value = false;
+
+          await Future.delayed(const Duration(seconds: 3)).then((_) async {
+            await disableNotify();
+            Get.to(() => FinishSettingScreen(), transition: Transition.fadeIn);
+          });
+        }
+      }
+    });
+  }
+
+  disableNotify() async {
     await readChar!.setNotifyValue(false);
     _subscription!.cancel();
   }
 
-  void write(String json) async {
+  write(String json) async {
     if (deviceState == BluetoothDeviceState.connected && writeChar != null) {
       writeChar!.write(json.codeUnits);
     }
+  }
+
+  writeWifi(String ssid, String pw) async {
+    await write('{"ssid":"$ssid", "pw":"$pw"}');
+
+    _wifiController.isConnecting.value = true;
   }
 
   void read() async {

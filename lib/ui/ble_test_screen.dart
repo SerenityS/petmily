@@ -15,7 +15,7 @@ class _BLETestScreenState extends State<BLETestScreen> {
 
   @override
   Widget build(BuildContext context) {
-    _bleMessageController.text = '{"ssid": "jins4218", "pw": "2"}';
+    _bleMessageController.text = '{"ssid": "U+Net8640", "pw": "1000000312"}';
 
     return Scaffold(
       appBar: AppBar(title: const Text("펫밀리")),
@@ -67,9 +67,14 @@ class _BLETestScreenState extends State<BLETestScreen> {
             child: const Text("Enable Tag Notify")),
         ElevatedButton(
             onPressed: () {
-              _bleController.disableGetTag();
+              _bleController.disableNotify();
             },
             child: const Text("Disable Tag Notify")),
+        ElevatedButton(
+            onPressed: () {
+              _bleController.enableGetWifiStatus();
+            },
+            child: const Text("Enable Wifi Notify")),
         ElevatedButton(
             onPressed: () {
               _bleController.clear();

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:petmily/ui/main/main_screen.dart';
+import 'package:petmily/ui/init_setting/init_setting_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
         colorSchemeSeed: Colors.pink,
         useMaterial3: true,
       ),
-      home: MainScreen(),
+      home: InitSettingScreen(),
     );
   }
 }
