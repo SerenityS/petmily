@@ -33,6 +33,7 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_blue_plus: ^1.4.0
+  flutter_secure_storage:
   get: ^4.6.5
   salomon_bottom_bar: ^3.3.2
   wifi_scan: ^0.4.0+1
