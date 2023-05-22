@@ -73,7 +73,7 @@ class AuthController extends GetxController {
       }
     } catch (e) {
       debugPrint(e.toString());
-      Fluttertoast.showToast(msg: "Login Failed.\ndPlease check your Email and Password");
+      Fluttertoast.showToast(msg: "Login Failed.\nPlease check your Email and Password");
     }
     return false;
   }
