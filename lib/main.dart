@@ -1,8 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:petmily/binding/dependency_binding.dart';
+import 'package:petmily/service/secure_storage_service.dart';
 import 'package:petmily/ui/init_setting/init_setting_screen.dart';
+import 'package:petmily/ui/login/login_screen.dart';
+import 'package:petmily/ui/main/main_screen.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Get.putAsync(() => SecureStorageService().init());
   runApp(const MyApp());
 }
 
@@ -12,12 +18,14 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
+      initialBinding: DependencyBinding(),
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        colorSchemeSeed: Colors.pink,
+        colorSchemeSeed: const Color(0xFF8185E2),
         useMaterial3: true,
+        scaffoldBackgroundColor: const Color(0xFF8185E2),
       ),
-      home: InitSettingScreen(),
+      home: LoginScreen(),
     );
   }
 }
