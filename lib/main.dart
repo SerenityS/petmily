@@ -22,8 +22,9 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         colorSchemeSeed: const Color(0xFF8185E2),
-        useMaterial3: true,
+        fontFamily: "SpoqaHanSansNeo",
         scaffoldBackgroundColor: const Color(0xFF8185E2),
+        useMaterial3: true,
       ),
       home: LoginScreen(),
     );
