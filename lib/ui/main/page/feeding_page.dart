@@ -195,6 +195,7 @@ class _FeedingPageState extends State<FeedingPage> {
                               overlayShape: const RoundSliderOverlayShape(overlayRadius: 0),
                               inactiveTrackColor: Colors.grey[100]!,
                               activeTrackColor: PetmilyConst.petmilyColor.withOpacity(0.7),
+                              tickMarkShape: const RoundSliderTickMarkShape(tickMarkRadius: 0.0),
                             ),
                             child: Slider(
                               value: sliderValue,
