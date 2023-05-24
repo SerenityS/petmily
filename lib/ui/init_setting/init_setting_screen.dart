@@ -11,22 +11,6 @@ class InitSettingScreen extends StatefulWidget {
 
 class _InitSettingScreenState extends State<InitSettingScreen> with SingleTickerProviderStateMixin {
   final int delayedAmount = 500;
-  late AnimationController _controller;
-
-  @override
-  void initState() {
-    _controller = AnimationController(
-      vsync: this,
-      duration: const Duration(
-        milliseconds: 200,
-      ),
-      lowerBound: 0.0,
-      upperBound: 0.1,
-    )..addListener(() {
-        setState(() {});
-      });
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
