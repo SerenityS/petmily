@@ -2,9 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:petmily/binding/dependency_binding.dart';
 import 'package:petmily/service/secure_storage_service.dart';
-import 'package:petmily/ui/init_setting/init_setting_screen.dart';
 import 'package:petmily/ui/login/login_screen.dart';
-import 'package:petmily/ui/main/main_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

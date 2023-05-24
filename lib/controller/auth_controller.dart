@@ -33,7 +33,7 @@ class AuthController extends GetxController {
 
     if (user != null) {
       isAutoLogin.value = true;
-      //await login(user!.email, user!.password);
+      await login(user!.email, user!.password);
     }
   }
 
@@ -69,7 +69,7 @@ class AuthController extends GetxController {
       if (devices.isEmpty) {
         Get.offAll(() => InitSettingScreen());
       } else {
-        Get.offAll(() => const MainScreen());
+        Get.offAll(() => MainScreen());
       }
     } catch (e) {
       debugPrint(e.toString());

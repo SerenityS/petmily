@@ -277,6 +277,14 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.99"
+  sliding_up_panel2:
+    dependency: "direct main"
+    description:
+      name: sliding_up_panel2
+      sha256: "7c2aac81c03e74fcd070799c5e2011f1c5de7026bd22a76164e81e23a49f2bdb"
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.3.0+1"
   source_span:
     dependency: transitive
     description:
@@ -341,6 +349,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.4"
+  wave:
+    dependency: "direct main"
+    description:
+      name: wave
+      sha256: "01ebccb4caa9b150cbe4763aa2a23501bb582843a1f96281868bbb23cb4db1f9"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.2.2"
   wifi_scan:
     dependency: "direct main"
     description:

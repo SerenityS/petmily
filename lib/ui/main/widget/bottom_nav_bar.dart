@@ -14,7 +14,8 @@ class _BottomNavBarState extends State<BottomNavBar> {
   @override
   Widget build(BuildContext context) {
     return SalomonBottomBar(
-      selectedColorOpacity: 0.2,
+      backgroundColor: Colors.white,
+      margin: const EdgeInsets.fromLTRB(8.0, 0.0, 8.0, 8.0),
       currentIndex: _currentIndex,
       onTap: (i) => setState(() => _currentIndex = i),
       items: [
@@ -23,15 +24,11 @@ class _BottomNavBarState extends State<BottomNavBar> {
           title: Text("Home"),
           selectedColor: Colors.purple,
         ),
-
-        /// Likes
         SalomonBottomBarItem(
-          icon: Icon(Icons.favorite_border),
-          title: Text("Likes"),
+          icon: Icon(Icons.history),
+          title: Text("History"),
           selectedColor: Colors.pink,
         ),
-
-        /// Search
         SalomonBottomBarItem(
           icon: Icon(Icons.search),
           title: Text("Search"),
