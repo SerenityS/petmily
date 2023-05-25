@@ -22,6 +22,7 @@ class FeedingPage extends GetView<FeedingPageController> {
   @override
   Widget build(BuildContext context) {
     controller.panelHeightOpen.value = MediaQuery.of(context).size.height * 0.5;
+    controller.panelHeight.value = controller.panelHeightClosed;
 
     return SlidingUpPanel(
       controller: panelController,
