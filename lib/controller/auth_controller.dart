@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
+import 'package:petmily/binding/main_screen_binding.dart';
 import 'package:petmily/controller/pet_controller.dart';
 import 'package:petmily/data/model/device.dart';
 import 'package:petmily/data/model/me.dart';
@@ -73,7 +74,7 @@ class AuthController extends GetxController {
       if (pets.isEmpty) {
         Get.offAll(() => InitSettingScreen());
       } else {
-        Get.offAll(() => MainScreen());
+        Get.offAll(() => const MainScreen(), binding: MainScreenBinding());
       }
     } catch (e) {
       debugPrint(e.toString());

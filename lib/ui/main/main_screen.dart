@@ -16,13 +16,13 @@ class _MainScreenState extends State<MainScreen> {
   Widget _buildBody() {
     switch (_currentIndex) {
       case 0:
-        return const FeedingPage();
+        return FeedingPage();
       case 1:
         return const CalendarPage();
       case 2:
-        return const FeedingPage();
+        return FeedingPage();
       default:
-        return const FeedingPage();
+        return FeedingPage();
     }
   }
 
