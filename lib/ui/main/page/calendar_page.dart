@@ -81,51 +81,59 @@ class _CalendarPageState extends State<CalendarPage> {
             itemCount: events.length,
             itemBuilder: (context, index) {
               return Padding(
-                padding: const EdgeInsets.fromLTRB(15.0, 15.0, 60.0, 15.0),
+                padding: const EdgeInsets.fromLTRB(15.0, 15.0, 15.0, 15.0),
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const Text(
-                          "시간",
-                          style: TextStyle(color: Colors.grey, fontWeight: FontWeight.w500),
-                        ),
-                        const SizedBox(height: 4.0),
-                        Text(
-                          DateFormat.jm('ko_KR').format(events[index].date),
-                          style: const TextStyle(fontSize: 15.0, fontWeight: FontWeight.bold),
-                        ),
-                      ],
+                    Expanded(
+                      flex: 3,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Text(
+                            "시간",
+                            style: TextStyle(color: Colors.grey, fontWeight: FontWeight.w500),
+                          ),
+                          const SizedBox(height: 4.0),
+                          Text(
+                            DateFormat.jm('ko_KR').format(events[index].date),
+                            style: const TextStyle(fontSize: 15.0, fontWeight: FontWeight.bold),
+                          ),
+                        ],
+                      ),
                     ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const Text(
-                          "섭취량",
-                          style: TextStyle(color: Colors.grey, fontWeight: FontWeight.w500),
-                        ),
-                        const SizedBox(height: 4.0),
-                        Text(
-                          "${events[index].consume}g",
-                          style: const TextStyle(fontSize: 15.0, fontWeight: FontWeight.bold),
-                        ),
-                      ],
+                    Expanded(
+                      flex: 3,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Text(
+                            "섭취량",
+                            style: TextStyle(color: Colors.grey, fontWeight: FontWeight.w500),
+                          ),
+                          const SizedBox(height: 4.0),
+                          Text(
+                            "${events[index].consume}g",
+                            style: const TextStyle(fontSize: 15.0, fontWeight: FontWeight.bold),
+                          ),
+                        ],
+                      ),
                     ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const Text(
-                          "칼로리",
-                          style: TextStyle(color: Colors.grey, fontWeight: FontWeight.w500),
-                        ),
-                        const SizedBox(height: 4.0),
-                        Text(
-                          "${(events[index].consume * 3).toInt()}kcal",
-                          style: const TextStyle(fontSize: 15.0, fontWeight: FontWeight.bold),
-                        ),
-                      ],
+                    Expanded(
+                      flex: 3,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Text(
+                            "섭취 칼로리",
+                            style: TextStyle(color: Colors.grey, fontWeight: FontWeight.w500),
+                          ),
+                          const SizedBox(height: 4.0),
+                          Text(
+                            "${(events[index].consume * 3).toInt()}kcal",
+                            style: const TextStyle(fontSize: 15.0, fontWeight: FontWeight.bold),
+                          ),
+                        ],
+                      ),
                     ),
                   ],
                 ),
