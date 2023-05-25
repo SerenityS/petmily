@@ -6,7 +6,7 @@ class Pet {
   String name;
   bool isMale;
   int age;
-  int weight;
+  double weight;
   String? imageUrl;
 
   Pet({
@@ -38,7 +38,7 @@ class Pet {
         name: map['name'] as String,
         isMale: map['is_male'] as bool,
         age: map['age'] as int,
-        weight: map['weight'] as int,
+        weight: map['weight'] as double,
         imageUrl: map['image_url'] != null ? map['image_url'] as String : null);
   }
 
