@@ -33,7 +33,7 @@ class _MainScreenState extends State<MainScreen> {
       body: _buildBody(),
       bottomNavigationBar: SalomonBottomBar(
         backgroundColor: Colors.white,
-        margin: const EdgeInsets.fromLTRB(8.0, 0.0, 8.0, 8.0),
+        margin: const EdgeInsets.all(8.0),
         currentIndex: _currentIndex,
         onTap: (i) => setState(() => _currentIndex = i),
         items: [
@@ -45,7 +45,7 @@ class _MainScreenState extends State<MainScreen> {
           SalomonBottomBarItem(
             icon: const Icon(Icons.history),
             title: const Text("기록"),
-            selectedColor: Colors.pink.withOpacity(0.7),
+            selectedColor: const Color(0xFF5C6BC0),
           ),
           SalomonBottomBarItem(
             icon: const Icon(Icons.settings),
