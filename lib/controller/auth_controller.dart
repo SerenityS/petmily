@@ -3,8 +3,10 @@ import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
+import 'package:petmily/controller/pet_controller.dart';
 import 'package:petmily/data/model/device.dart';
 import 'package:petmily/data/model/me.dart';
+import 'package:petmily/data/model/pet.dart';
 import 'package:petmily/data/model/user.dart';
 import 'package:petmily/data/provider/api_exception.dart';
 import 'package:petmily/data/repository/auth_repository.dart';
@@ -19,8 +21,10 @@ class AuthController extends GetxController {
 
   final storage = Get.find<SecureStorageService>();
 
+  final PetController petController = Get.find<PetController>();
+
   late User? user;
-  late List<Device> devices;
+  late List<Pet> pets;
   Rx<bool> isAutoLogin = false.obs;
 
   String _jwt = "";
@@ -62,11 +66,11 @@ class AuthController extends GetxController {
     try {
       await repository.login(email, pw).then((data) async {
         _jwt = jsonDecode(data)['access_token'];
-        storage.user = User(email: email, password: pw);
+        storage.user = User(email: email, password: pw, jwt: _jwt);
       });
-      devices = await getDevice();
+      pets = await petController.getPet();
 
-      if (devices.isEmpty) {
+      if (pets.isEmpty) {
         Get.offAll(() => InitSettingScreen());
       } else {
         Get.offAll(() => MainScreen());
