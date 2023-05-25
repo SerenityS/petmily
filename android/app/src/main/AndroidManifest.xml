@@ -7,7 +7,7 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/> 
     <uses-permission android:name="android.permission.INTERNET"/>
    <application
-        android:label="petmily"
+        android:label="Petmily"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher"
         android:usesCleartextTraffic="true" >
