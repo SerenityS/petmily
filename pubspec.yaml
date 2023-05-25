@@ -37,8 +37,10 @@ dependencies:
   fluttertoast:
   get: ^4.6.5
   http:
+  intl:
   salomon_bottom_bar: ^3.3.2
   sliding_up_panel2: ^3.3.0+1
+  table_calendar: ^3.0.9
   wave: ^0.2.2
   wifi_scan: ^0.4.0+1
 
