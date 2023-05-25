@@ -1,59 +1,47 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:petmily/ui/main/controller/main_screen_controller.dart';
 import 'package:petmily/ui/main/page/calendar_page.dart';
 import 'package:petmily/ui/main/page/feeding_page.dart';
 import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
 
-class MainScreen extends StatefulWidget {
-  const MainScreen({super.key});
+class MainScreen extends StatelessWidget {
+  MainScreen({super.key});
 
-  @override
-  State<MainScreen> createState() => _MainScreenState();
-}
+  final MainScreenController controller = Get.find<MainScreenController>();
 
-class _MainScreenState extends State<MainScreen> {
-  int _currentIndex = 0;
-
-  Widget _buildBody() {
-    switch (_currentIndex) {
-      case 0:
-        return FeedingPage();
-      case 1:
-        return const CalendarPage();
-      case 2:
-        return FeedingPage();
-      default:
-        return FeedingPage();
-    }
-  }
+  static final List<Widget> _buildPage = [FeedingPage(), const CalendarPage(), FeedingPage()];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      body: _buildBody(),
-      bottomNavigationBar: SalomonBottomBar(
-        backgroundColor: Colors.white,
-        margin: const EdgeInsets.all(8.0),
-        currentIndex: _currentIndex,
-        onTap: (i) => setState(() => _currentIndex = i),
-        items: [
-          SalomonBottomBarItem(
-            icon: const Icon(Icons.home),
-            title: const Text("홈"),
-            selectedColor: Colors.purple.withOpacity(0.7),
-          ),
-          SalomonBottomBarItem(
-            icon: const Icon(Icons.history),
-            title: const Text("기록"),
-            selectedColor: const Color(0xFF5C6BC0),
-          ),
-          SalomonBottomBarItem(
-            icon: const Icon(Icons.settings),
-            title: const Text("설정"),
-            selectedColor: Colors.orange.withOpacity(0.7),
-          ),
-        ],
-      ),
+      body: Obx(() => _buildPage[controller.currentIndex.value]),
+      bottomNavigationBar: Obx(() {
+        return SalomonBottomBar(
+          backgroundColor: Colors.white,
+          margin: const EdgeInsets.all(8.0),
+          currentIndex: controller.currentIndex.value,
+          onTap: (i) => controller.changeIndex(i),
+          items: [
+            SalomonBottomBarItem(
+              icon: const Icon(Icons.home),
+              title: const Text("홈"),
+              selectedColor: Colors.purple.withOpacity(0.7),
+            ),
+            SalomonBottomBarItem(
+              icon: const Icon(Icons.history),
+              title: const Text("기록"),
+              selectedColor: const Color(0xFF5C6BC0),
+            ),
+            SalomonBottomBarItem(
+              icon: const Icon(Icons.settings),
+              title: const Text("설정"),
+              selectedColor: Colors.orange.withOpacity(0.7),
+            ),
+          ],
+        );
+      }),
     );
   }
 }

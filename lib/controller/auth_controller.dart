@@ -74,7 +74,7 @@ class AuthController extends GetxController {
       if (pets.isEmpty) {
         Get.offAll(() => InitSettingScreen());
       } else {
-        Get.offAll(() => const MainScreen(), binding: MainScreenBinding());
+        Get.offAll(() => MainScreen(), binding: MainScreenBinding());
       }
     } catch (e) {
       debugPrint(e.toString());
