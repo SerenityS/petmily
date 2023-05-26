@@ -4,7 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:petmily/binding/main_screen_binding.dart';
-import 'package:petmily/controller/pet_controller.dart';
+import 'package:petmily/controller/petmily_controller.dart';
 import 'package:petmily/data/model/me.dart';
 import 'package:petmily/data/model/pet.dart';
 import 'package:petmily/data/model/user.dart';
@@ -21,7 +21,7 @@ class AuthController extends GetxController {
 
   final storage = Get.find<SecureStorageService>();
 
-  final PetController petController = Get.find<PetController>();
+  final PetmilyController petController = Get.find<PetmilyController>();
 
   late User? user;
   late List<Pet> pets;

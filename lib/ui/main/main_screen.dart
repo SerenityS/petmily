@@ -45,7 +45,9 @@ class MainScreen extends StatelessWidget {
         floatingActionButton: controller.currentIndex.value == 1
             ? FloatingActionButton(
                 onPressed: () async {
-                  await Get.find<HistoryController>().getHistory();
+                  final HistoryController historyController = Get.find<HistoryController>();
+                  await historyController.getHistory();
+                  historyController.getHistoryByDay(historyController.selectedDay.value);
                 },
                 child: const Icon(Icons.refresh),
               )

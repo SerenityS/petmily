@@ -18,6 +18,9 @@ class HistoryController extends GetxController {
   final RxList<History> _selectedHistoryList = <History>[].obs;
   RxList<History> get selectedHistoryList => _selectedHistoryList;
 
+  final Rx<int> _todayConsume = 0.obs;
+  Rx<int> get todayConsume => _todayConsume;
+
   Rx<DateTime> focusedDay = DateTime.now().obs;
   Rx<DateTime> selectedDay = DateTime.now().obs;
 
@@ -28,11 +31,21 @@ class HistoryController extends GetxController {
     getHistoryByDay(focusedDay.value);
   }
 
+  void calculateTodayConsume() {
+    _todayConsume.value = 0;
+    for (var history in _historyList) {
+      if (history.date.day == DateTime.now().day) {
+        todayConsume.value += history.consume;
+      }
+    }
+  }
+
   Future<void> getHistory() async {
     try {
       User? user = await storage.getUser();
       final response = await repository.getHistory(user!.jwt);
       _historyList.assignAll(jsonDecode(response).map<History>((json) => History.fromMap(json)).toList());
+      calculateTodayConsume();
     } catch (e) {
       debugPrint(e.toString());
     }

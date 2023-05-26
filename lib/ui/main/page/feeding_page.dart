@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:petmily/const/petmily_const.dart';
-import 'package:petmily/controller/pet_controller.dart';
+import 'package:petmily/controller/history_controller.dart';
+import 'package:petmily/controller/petmily_controller.dart';
 import 'package:petmily/data/model/pet.dart';
 import 'package:petmily/ui/main/controller/feeding_controller.dart';
 import 'package:sliding_up_panel2/sliding_up_panel2.dart';
@@ -12,7 +13,7 @@ class FeedingPage extends GetView<FeedingPageController> {
   FeedingPage({super.key});
 
   final PanelController panelController = PanelController();
-  final PetController _petController = Get.find<PetController>();
+  final PetmilyController _petmilyController = Get.find<PetmilyController>();
 
   final BorderRadiusGeometry radius = const BorderRadius.only(
     topLeft: Radius.circular(24.0),
@@ -79,7 +80,7 @@ class FeedingPage extends GetView<FeedingPageController> {
   }
 
   Widget _buildCollapsed(BuildContext context) {
-    Pet pet = _petController.petList[0];
+    Pet pet = _petmilyController.petList[0];
 
     return Container(
       decoration: BoxDecoration(borderRadius: radius),
@@ -114,6 +115,9 @@ class FeedingPage extends GetView<FeedingPageController> {
     final double width = MediaQuery.of(context).size.width;
     final double height = MediaQuery.of(context).size.height;
 
+    int todayConsume = Get.find<HistoryController>().todayConsume.value;
+    int todayConsumeKcal = (todayConsume * _petmilyController.petList[0].feedKcal).toInt();
+
     return MediaQuery.removePadding(
       context: context,
       removeTop: true,
@@ -131,14 +135,15 @@ class FeedingPage extends GetView<FeedingPageController> {
                         width: width * 0.45,
                         height: height * 0.15,
                         color: PetmilyConst.dangerColor,
-                        child: const Padding(
-                          padding: EdgeInsets.all(16.0),
+                        child: Padding(
+                          padding: const EdgeInsets.all(16.0),
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text("현재 섭취량", style: TextStyle(fontWeight: FontWeight.w500, fontSize: 20.0)),
-                              Text("0g / 0kcal", style: TextStyle(fontWeight: FontWeight.w400, fontSize: 17.0)),
+                              const Text("금일 섭취량", style: TextStyle(fontWeight: FontWeight.w500, fontSize: 20.0)),
+                              Text("${todayConsume}g / ${todayConsumeKcal}kcal",
+                                  style: const TextStyle(fontWeight: FontWeight.w400, fontSize: 17.0)),
                             ],
                           ),
                         ),
@@ -228,11 +233,20 @@ class FeedingPage extends GetView<FeedingPageController> {
                     RoundedContainer(
                       width: width * 0.25,
                       height: height * 0.09,
-                      color: controller.feedColor.value,
-                      child: const Center(
-                        child: Text(
-                          "급식",
-                          style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.w500),
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          shape: RoundedRectangleBorder(borderRadius: PetmilyConst.petmilyBorderRadius),
+                          foregroundColor: Colors.white,
+                          backgroundColor: controller.feedColor.value,
+                        ),
+                        onPressed: () async {
+                          await _petmilyController.feeding(controller.sliderValue.value.toInt(), _petmilyController.petList[0].chipId);
+                        },
+                        child: const Center(
+                          child: Text(
+                            "급식",
+                            style: TextStyle(color: Colors.black, fontSize: 20.0, fontWeight: FontWeight.w500),
+                          ),
                         ),
                       ),
                     )
