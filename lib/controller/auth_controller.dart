@@ -5,7 +5,6 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:petmily/binding/main_screen_binding.dart';
 import 'package:petmily/controller/pet_controller.dart';
-import 'package:petmily/data/model/device.dart';
 import 'package:petmily/data/model/me.dart';
 import 'package:petmily/data/model/pet.dart';
 import 'package:petmily/data/model/user.dart';
@@ -39,17 +38,6 @@ class AuthController extends GetxController {
     if (user != null) {
       isAutoLogin.value = true;
       await login(user!.email, user!.password);
-    }
-  }
-
-  Future<List<Device>> getDevice() async {
-    try {
-      final response = await repository.getDevice(_jwt);
-      List<Device> deviceList = jsonDecode(response).map<Device>((json) => Device.fromMap(json)).toList();
-      return deviceList;
-    } catch (e) {
-      debugPrint(e.toString());
-      return [];
     }
   }
 
