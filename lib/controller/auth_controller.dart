@@ -55,7 +55,8 @@ class AuthController extends GetxController {
     try {
       await repository.login(email, pw).then((data) async {
         _jwt = jsonDecode(data)['access_token'];
-        storage.user = User(email: email, password: pw, jwt: _jwt);
+        user = User(email: email, password: pw, jwt: _jwt);
+        storage.user = user;
       });
       pets = await petController.getPet();
 
