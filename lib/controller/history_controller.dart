@@ -25,6 +25,7 @@ class HistoryController extends GetxController {
   void onInit() async {
     super.onInit();
     await getHistory();
+    getHistoryByDay(focusedDay.value);
   }
 
   Future<void> getHistory() async {

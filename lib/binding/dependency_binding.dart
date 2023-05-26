@@ -21,10 +21,10 @@ class DependencyBinding implements Bindings {
             apiClient: MyApiClient(
       httpClient: http.Client(),
     ))));
-    Get.put(HistoryController(
-        repository: HistoryRepository(
-            apiClient: MyApiClient(
-      httpClient: http.Client(),
-    ))));
+    Get.lazyPut(() => HistoryController(
+            repository: HistoryRepository(
+                apiClient: MyApiClient(
+          httpClient: http.Client(),
+        ))));
   }
 }
