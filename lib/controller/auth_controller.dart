@@ -59,6 +59,7 @@ class AuthController extends GetxController {
         storage.user = user;
       });
       pets = await petController.getPet();
+      await petController.getDeviceData();
 
       if (pets.isEmpty) {
         Get.offAll(() => InitSettingScreen());

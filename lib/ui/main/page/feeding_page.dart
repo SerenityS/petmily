@@ -133,7 +133,7 @@ class FeedingPage extends GetView<FeedingPageController> {
                         SizedBox(height: height * 0.01),
                         FillContainer(
                           title: "밥그릇",
-                          text: "50g / 0kcal",
+                          text: "${_petmilyController.deviceData.bowlAmount}g / ${_petmilyController.deviceData.bowlAmount * 3}kcal",
                           width: width * 0.45,
                           height: height * 0.15,
                           progress: 50,
@@ -144,7 +144,9 @@ class FeedingPage extends GetView<FeedingPageController> {
                     SizedBox(width: height * 0.01),
                     FillContainer(
                       title: "남은 사료량",
-                      text: "3kg / 6kg",
+                      text: _petmilyController.deviceData.feedBoxAmount < 1000
+                          ? "${_petmilyController.deviceData.feedBoxAmount}g / 6kg"
+                          : "${(_petmilyController.deviceData.feedBoxAmount / 1000).toStringAsFixed(2)}kg / 6kg",
                       width: width * 0.45,
                       height: height * 0.31,
                       progress: 50,

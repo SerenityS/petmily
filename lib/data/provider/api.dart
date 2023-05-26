@@ -5,7 +5,7 @@ import 'package:http/http.dart' as http;
 import 'package:petmily/data/provider/api_endpoint.dart';
 import 'package:petmily/data/provider/api_exception.dart';
 
-enum ApiType { history, login, me, petmily, register, ws }
+enum ApiType { device, history, login, me, petmily, register, ws }
 
 class MyApiClient {
   final http.Client httpClient;
@@ -15,6 +15,8 @@ class MyApiClient {
 
   String get path {
     switch (type) {
+      case ApiType.device:
+        return "/petmily/device_data";
       case ApiType.history:
         return "/history";
       case ApiType.login:
@@ -32,11 +34,11 @@ class MyApiClient {
 
   String get url => APIEndpoint.apiUrl + path;
 
-  Future<String> get(ApiType type, {required String token}) async {
+  Future<String> get(ApiType type, {Map<String, String>? queryParameter, required String token}) async {
     try {
       this.type = type;
       final response = await httpClient.get(
-        Uri.parse(url),
+        queryParameter == null ? Uri.parse(url) : Uri.parse(url).replace(queryParameters: queryParameter),
         headers: {"Content-Type": "application/json", "Authorization": "Bearer $token"},
       );
       return _returnResponse(response);

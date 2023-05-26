@@ -11,6 +11,10 @@ class PetmilyRepository {
     return await apiClient.post(ApiType.ws, body: jsonEncode({"chip_id": chipId, "command": "feed", "amount": amount}), token: token);
   }
 
+  getDeviceData(String chipId, String token) async {
+    return await apiClient.get(ApiType.device, queryParameter: {"chip_id": chipId}, token: token);
+  }
+
   getPet(String token) async {
     return await apiClient.get(ApiType.petmily, token: token);
   }
