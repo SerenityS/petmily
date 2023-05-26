@@ -29,6 +29,7 @@ class HistoryController extends GetxController {
     super.onInit();
     await getHistory();
     getHistoryByDay(focusedDay.value);
+    calculateTodayConsume();
   }
 
   void calculateTodayConsume() {
