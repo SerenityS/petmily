@@ -1,9 +1,11 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:petmily/const/petmily_const.dart';
 import 'package:petmily/controller/history_controller.dart';
 import 'package:petmily/controller/petmily_controller.dart';
 import 'package:petmily/data/model/pet.dart';
+import 'package:petmily/data/provider/api_endpoint.dart';
 import 'package:petmily/ui/main/controller/feeding_controller.dart';
 import 'package:petmily/util/consume_calc.dart';
 import 'package:sliding_up_panel2/sliding_up_panel2.dart';
@@ -240,7 +242,13 @@ class FeedingPage extends GetView<FeedingPageController> {
       backdropOpacity: 0.3,
       borderRadius: radius,
       parallaxEnabled: true,
-      body: Image.asset('assets/images/cat.jpg', fit: BoxFit.cover),
+      body: pet.imageUrl == null
+          ? CachedNetworkImage(
+              imageUrl: "${APIEndpoint.apiUrl}/petmily/image?file_name=${pet.imageUrl!}",
+              fit: BoxFit.cover,
+              progressIndicatorBuilder: (context, url, downloadProgress) =>
+                  Center(child: SizedBox(width: 80, height: 80, child: CircularProgressIndicator(value: downloadProgress.progress))))
+          : Center(child: SizedBox(width: 200, height: 200, child: Image.asset("assets/images/logo.png"))),
       header: buildHeader(),
       collapsed: buildCollapsed(),
       panelBuilder: () {
