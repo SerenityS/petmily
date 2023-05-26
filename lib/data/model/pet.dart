@@ -7,6 +7,8 @@ class Pet {
   bool isMale;
   int age;
   double weight;
+  int petType;
+  double feedKcal;
   String? imageUrl;
 
   Pet({
@@ -16,6 +18,8 @@ class Pet {
     required this.isMale,
     required this.age,
     required this.weight,
+    required this.petType,
+    required this.feedKcal,
     this.imageUrl,
   });
 
@@ -27,6 +31,8 @@ class Pet {
       'isMale': isMale,
       'age': age,
       'weight': weight,
+      'petType': petType,
+      'feedKcal': feedKcal,
       'imageUrl': imageUrl,
     };
   }
@@ -39,6 +45,8 @@ class Pet {
         isMale: map['is_male'] as bool,
         age: map['age'] as int,
         weight: map['weight'] as double,
+        petType: map['pet_type'] as int,
+        feedKcal: map['feed_kcal'] as double,
         imageUrl: map['image_url'] != null ? map['image_url'] as String : null);
   }
 
@@ -48,6 +56,6 @@ class Pet {
 
   @override
   String toString() {
-    return 'Pet(userId: $userId, chipId: $chipId, name: $name, isMale: $isMale, age: $age, weight: $weight, imageUrl: $imageUrl)';
+    return 'Pet(userId: $userId, chipId: $chipId, name: $name, isMale: $isMale, age: $age, weight: $weight, imageUrl: $imageUrl, petType: $petType, feedKcal: $feedKcal)';
   }
 }
