@@ -5,7 +5,7 @@ import 'package:http/http.dart' as http;
 import 'package:petmily/data/provider/api_endpoint.dart';
 import 'package:petmily/data/provider/api_exception.dart';
 
-enum ApiType { history, login, me, pet, register, ws }
+enum ApiType { history, login, me, petmily, register, ws }
 
 class MyApiClient {
   final http.Client httpClient;
@@ -21,8 +21,8 @@ class MyApiClient {
         return "/auth/jwt/login";
       case ApiType.me:
         return "/users/me";
-      case ApiType.pet:
-        return "/pet";
+      case ApiType.petmily:
+        return "/petmily";
       case ApiType.register:
         return "/auth/register";
       case ApiType.ws:

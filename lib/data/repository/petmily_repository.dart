@@ -12,6 +12,6 @@ class PetmilyRepository {
   }
 
   getPet(String token) async {
-    return await apiClient.get(ApiType.pet, token: token);
+    return await apiClient.get(ApiType.petmily, token: token);
   }
 }
