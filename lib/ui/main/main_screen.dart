@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:petmily/controller/history_controller.dart';
 import 'package:petmily/ui/main/controller/main_screen_controller.dart';
-import 'package:petmily/ui/main/page/calendar_page.dart';
+import 'package:petmily/ui/main/page/history_page.dart';
 import 'package:petmily/ui/main/page/feeding_page.dart';
 import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
 
@@ -10,15 +11,15 @@ class MainScreen extends StatelessWidget {
 
   final MainScreenController controller = Get.find<MainScreenController>();
 
-  static final List<Widget> _buildPage = [FeedingPage(), const CalendarPage(), FeedingPage()];
+  static final List<Widget> _buildPage = [FeedingPage(), const HistoryPage(), FeedingPage()];
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      body: Obx(() => _buildPage[controller.currentIndex.value]),
-      bottomNavigationBar: Obx(() {
-        return SalomonBottomBar(
+    return Obx(() {
+      return Scaffold(
+        backgroundColor: Colors.white,
+        body: _buildPage[controller.currentIndex.value],
+        bottomNavigationBar: SalomonBottomBar(
           backgroundColor: Colors.white,
           margin: const EdgeInsets.all(8.0),
           currentIndex: controller.currentIndex.value,
@@ -40,8 +41,16 @@ class MainScreen extends StatelessWidget {
               selectedColor: Colors.orange.withOpacity(0.7),
             ),
           ],
-        );
-      }),
-    );
+        ),
+        floatingActionButton: controller.currentIndex.value == 1
+            ? FloatingActionButton(
+                onPressed: () async {
+                  await Get.find<HistoryController>().getHistory();
+                },
+                child: const Icon(Icons.refresh),
+              )
+            : null,
+      );
+    });
   }
 }

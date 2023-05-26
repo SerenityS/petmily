@@ -7,10 +7,6 @@ class AuthRepository {
 
   AuthRepository({required this.apiClient});
 
-  getDevice(String token) async {
-    return await apiClient.get(ApiType.device, token: token);
-  }
-
   getNick(String token) async {
     return await apiClient.get(ApiType.me, token: token);
   }
