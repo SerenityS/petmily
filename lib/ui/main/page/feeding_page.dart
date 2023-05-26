@@ -242,7 +242,7 @@ class FeedingPage extends GetView<FeedingPageController> {
       backdropOpacity: 0.3,
       borderRadius: radius,
       parallaxEnabled: true,
-      body: pet.imageUrl == null
+      body: pet.imageUrl != null
           ? CachedNetworkImage(
               imageUrl: "${APIEndpoint.apiUrl}/petmily/image?file_name=${pet.imageUrl!}",
               fit: BoxFit.cover,
