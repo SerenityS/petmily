@@ -23,6 +23,7 @@ class AuthController extends GetxController {
 
   final PetmilyController petController = Get.find<PetmilyController>();
 
+  late Me? me;
   late User? user;
   late List<Pet> pets;
   Rx<bool> isAutoLogin = false.obs;
@@ -41,13 +42,12 @@ class AuthController extends GetxController {
     }
   }
 
-  Future<Me> getMe() async {
+  Future<void> getMe() async {
     try {
-      final response = await repository.getNick(_jwt);
-      return Me.fromJson(response);
+      final response = await repository.getMe(_jwt);
+      me = Me.fromJson(response);
     } catch (e) {
       debugPrint(e.toString());
-      return Me(id: "", email: "", nick: "");
     }
   }
 
@@ -58,6 +58,7 @@ class AuthController extends GetxController {
         user = User(email: email, password: pw, jwt: _jwt);
         storage.user = user;
       });
+      await getMe();
       pets = await petController.getPet();
       await petController.getDeviceData();
 

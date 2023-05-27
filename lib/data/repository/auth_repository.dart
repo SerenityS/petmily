@@ -7,7 +7,7 @@ class AuthRepository {
 
   AuthRepository({required this.apiClient});
 
-  getNick(String token) async {
+  getMe(String token) async {
     return await apiClient.get(ApiType.me, token: token);
   }
 

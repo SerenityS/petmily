@@ -4,6 +4,7 @@ import 'package:petmily/controller/history_controller.dart';
 import 'package:petmily/ui/main/controller/main_screen_controller.dart';
 import 'package:petmily/ui/main/page/history_page.dart';
 import 'package:petmily/ui/main/page/feeding_page.dart';
+import 'package:petmily/ui/main/page/setting_page.dart';
 import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
 
 class MainScreen extends StatelessWidget {
@@ -11,7 +12,7 @@ class MainScreen extends StatelessWidget {
 
   final MainScreenController controller = Get.find<MainScreenController>();
 
-  static final List<Widget> _buildPage = [FeedingPage(), const HistoryPage(), FeedingPage()];
+  static final List<Widget> _buildPage = [FeedingPage(), const HistoryPage(), SettingPage()];
 
   @override
   Widget build(BuildContext context) {
