@@ -4,6 +4,7 @@ import 'package:petmily/controller/history_controller.dart';
 import 'package:petmily/ui/main/controller/main_screen_controller.dart';
 import 'package:petmily/ui/main/page/history_page.dart';
 import 'package:petmily/ui/main/page/feeding_page.dart';
+import 'package:petmily/ui/main/page/schedule_page.dart';
 import 'package:petmily/ui/main/page/setting_page.dart';
 import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
 
@@ -12,7 +13,7 @@ class MainScreen extends StatelessWidget {
 
   final MainScreenController controller = Get.find<MainScreenController>();
 
-  static final List<Widget> _buildPage = [FeedingPage(), const HistoryPage(), SettingPage()];
+  static final List<Widget> _buildPage = [FeedingPage(), SchedulePage(), const HistoryPage(), SettingPage()];
 
   @override
   Widget build(BuildContext context) {
@@ -32,6 +33,11 @@ class MainScreen extends StatelessWidget {
               selectedColor: Colors.purple.withOpacity(0.7),
             ),
             SalomonBottomBarItem(
+              icon: const Icon(Icons.alarm),
+              title: const Text("스케쥴"),
+              selectedColor: Colors.pink,
+            ),
+            SalomonBottomBarItem(
               icon: const Icon(Icons.history),
               title: const Text("기록"),
               selectedColor: const Color(0xFF5C6BC0),
@@ -43,7 +49,7 @@ class MainScreen extends StatelessWidget {
             ),
           ],
         ),
-        floatingActionButton: controller.currentIndex.value == 1
+        floatingActionButton: controller.currentIndex.value == 2
             ? FloatingActionButton(
                 onPressed: () async {
                   final HistoryController historyController = Get.find<HistoryController>();
