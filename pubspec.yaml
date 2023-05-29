@@ -37,6 +37,7 @@ dependencies:
   flutter_secure_storage: null
   fluttertoast: null
   get: ^4.6.5
+  horizontal_picker: ^1.2.0
   http: null
   intl: null
   salomon_bottom_bar: ^3.3.2
