@@ -5,7 +5,7 @@ class Pet {
   String chipId;
   String name;
   bool isMale;
-  int age;
+  DateTime birth;
   double weight;
   int petType;
   double feedKcal;
@@ -16,7 +16,7 @@ class Pet {
     required this.chipId,
     required this.name,
     required this.isMale,
-    required this.age,
+    required this.birth,
     required this.weight,
     required this.petType,
     required this.feedKcal,
@@ -25,15 +25,15 @@ class Pet {
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
-      'userId': userId,
-      'chipId': chipId,
+      'user_id': userId,
+      'chip_id': chipId,
       'name': name,
-      'isMale': isMale,
-      'age': age,
+      'is_male': isMale,
+      'birth': birth.toIso8601String(),
       'weight': weight,
-      'petType': petType,
-      'feedKcal': feedKcal,
-      'imageUrl': imageUrl,
+      'pet_type': petType,
+      'feed_kcal': feedKcal,
+      'image_url': imageUrl,
     };
   }
 
@@ -43,7 +43,7 @@ class Pet {
         chipId: map['chip_id'] as String,
         name: map['name'] as String,
         isMale: map['is_male'] as bool,
-        age: map['age'] as int,
+        birth: DateTime.parse(map['birth'] as String),
         weight: map['weight'] as double,
         petType: map['pet_type'] as int,
         feedKcal: map['feed_kcal'] as double,
@@ -56,6 +56,6 @@ class Pet {
 
   @override
   String toString() {
-    return 'Pet(userId: $userId, chipId: $chipId, name: $name, isMale: $isMale, age: $age, weight: $weight, imageUrl: $imageUrl, petType: $petType, feedKcal: $feedKcal)';
+    return 'Pet(userId: $userId, chipId: $chipId, name: $name, isMale: $isMale, birth: ${DateTime.parse(birth.toIso8601String())}, weight: $weight, imageUrl: $imageUrl, petType: $petType, feedKcal: $feedKcal)';
   }
 }
