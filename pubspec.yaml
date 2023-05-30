@@ -43,6 +43,7 @@ dependencies:
   http: null
   image_picker: ^0.8.7+5
   intl: null
+  permission_handler: ^10.2.0
   salomon_bottom_bar: ^3.3.2
   sliding_up_panel2: ^3.3.0+1
   table_calendar: ^3.0.9
