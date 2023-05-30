@@ -216,7 +216,9 @@ class FeedingPage extends GetView<FeedingPageController> {
                             backgroundColor: controller.feedColor.value,
                           ),
                           onPressed: () async {
-                            await _petmilyController.feeding(controller.sliderValue.value.toInt(), _petmilyController.petList[0].chipId);
+                            if (controller.sliderValue.value != 0.0) {
+                              await _petmilyController.feeding(controller.sliderValue.value.toInt(), _petmilyController.petList[0].chipId);
+                            }
                           },
                           child: const Center(
                             child: Text(
