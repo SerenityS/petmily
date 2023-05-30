@@ -86,6 +86,8 @@ class BLEController extends GetxController {
           deviceStateSubscription = device!.device.state.listen((s) {
             deviceState = s;
           });
+          await device!.device.requestMtu(512);
+
           await findServices().then((_) => enableGetTag());
           debugPrint("Connection success");
 
