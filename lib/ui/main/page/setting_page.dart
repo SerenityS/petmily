@@ -85,6 +85,16 @@ class SettingPage extends StatelessWidget {
               iconData: Icons.info_outline,
               onTap: () => Get.to(() => const OssLicenceScreen()),
             ),
+            Divider(
+              height: 1.0,
+              thickness: 1.0,
+              color: Colors.grey[300],
+            ),
+            SettingContainer(
+              title: "로그아웃",
+              iconData: Icons.logout_outlined,
+              onTap: () => _authController.logout(),
+            ),
           ],
         ),
       ),
