@@ -34,11 +34,14 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_blue_plus: ^1.4.0
+  flutter_localizations:
+    sdk: flutter
   flutter_secure_storage: null
   fluttertoast: null
   get: ^4.6.5
   horizontal_picker: ^1.2.0
   http: null
+  image_picker: ^0.8.7+5
   intl: null
   salomon_bottom_bar: ^3.3.2
   sliding_up_panel2: ^3.3.0+1
