@@ -20,7 +20,7 @@ class WifiController extends GetxController {
   Future<void> startScan() async {
     if (shouldCheckCan) {
       // check if can-startScan
-      final can = await WiFiScan.instance.canStartScan();
+      final can = await WiFiScan.instance.canStartScan(askPermissions: true);
       // if can-not, then show error
       if (can != CanStartScan.yes) {
         debugPrint("Cannot start scan (reason '${can.toString()}')");
