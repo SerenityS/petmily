@@ -44,6 +44,14 @@ class SchedulePage extends GetView<ScheduleController> {
             }
           });
 
+          int totalSchedule = controller.scheduleList.fold(0, (previousValue, element) {
+            if (element.isEnable) {
+              return previousValue += 1;
+            } else {
+              return previousValue;
+            }
+          });
+
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -68,8 +76,8 @@ class SchedulePage extends GetView<ScheduleController> {
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 30.0),
-                child: Text("총 ${controller.scheduleList.length}끼 급식",
-                    style: const TextStyle(color: Colors.grey, fontSize: 18.0, fontWeight: FontWeight.w500)),
+                child:
+                    Text("총 $totalSchedule끼 급식", style: const TextStyle(color: Colors.grey, fontSize: 18.0, fontWeight: FontWeight.w500)),
               ),
               ListView.separated(
                 separatorBuilder: (context, index) => Divider(height: 1.5, thickness: 1.5, color: Colors.grey[200]!),
