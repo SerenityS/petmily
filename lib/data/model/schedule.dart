@@ -1,16 +1,16 @@
 import 'dart:convert';
 
-class FeedingSchedule {
-  FeedingSchedule({
+class Schedule {
+  Schedule({
     required this.isEnable,
     required this.date,
     required this.amount,
   });
 
-  factory FeedingSchedule.fromJson(String source) => FeedingSchedule.fromMap(json.decode(source) as Map<String, dynamic>);
+  factory Schedule.fromJson(String source) => Schedule.fromMap(json.decode(source) as Map<String, dynamic>);
 
-  factory FeedingSchedule.fromMap(Map<String, dynamic> map) {
-    return FeedingSchedule(
+  factory Schedule.fromMap(Map<String, dynamic> map) {
+    return Schedule(
       isEnable: map['is_enable'] as bool,
       date: DateTime.fromMillisecondsSinceEpoch(map['date'] as int),
       amount: map['amount'] as int,
@@ -24,12 +24,12 @@ class FeedingSchedule {
   @override
   String toString() => 'FeedingSchedule(isEnable: $isEnable, date: $date, amount: $amount)';
 
-  FeedingSchedule copyWith({
+  Schedule copyWith({
     bool? isEnable,
     DateTime? date,
     int? amount,
   }) {
-    return FeedingSchedule(
+    return Schedule(
       isEnable: isEnable ?? this.isEnable,
       date: date ?? this.date,
       amount: amount ?? this.amount,

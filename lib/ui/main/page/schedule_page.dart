@@ -3,15 +3,15 @@ import 'package:get/get.dart';
 import 'package:horizontal_picker/horizontal_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:petmily/controller/petmily_controller.dart';
-import 'package:petmily/data/model/feeding_schedule.dart';
+import 'package:petmily/controller/schedule_controller.dart';
+import 'package:petmily/data/model/schedule.dart';
 import 'package:petmily/data/model/pet.dart';
-import 'package:petmily/ui/main/controller/schedule_controller.dart';
 import 'package:petmily/ui/main/widget/flutter_time_picker_spinner.dart';
 import 'package:petmily/util/consume_calc.dart';
 
 late ConsumeCalc consumeCalc;
 
-class SchedulePage extends GetView<SchedulePageController> {
+class SchedulePage extends GetView<ScheduleController> {
   SchedulePage({super.key});
 
   final PetmilyController _petmilyController = Get.find<PetmilyController>();
@@ -21,7 +21,7 @@ class SchedulePage extends GetView<SchedulePageController> {
     Pet pet = _petmilyController.petList[0];
     consumeCalc = ConsumeCalc(pet: pet);
 
-    void showScheduleModal(BuildContext context, {required FeedingSchedule schedule, required int index}) {
+    void showScheduleModal(BuildContext context, {required Schedule schedule, required int index}) {
       showModalBottomSheet(
           context: context,
           backgroundColor: Colors.white,
@@ -58,7 +58,7 @@ class SchedulePage extends GetView<SchedulePageController> {
                       OutlinedButton(
                           style: OutlinedButton.styleFrom(side: const BorderSide(color: Colors.pink)),
                           onPressed: () {
-                            controller.scheduleList.add(FeedingSchedule(isEnable: true, date: DateTime.now(), amount: 10));
+                            controller.scheduleList.add(Schedule(isEnable: true, date: DateTime.now(), amount: 10));
                             showScheduleModal(context, schedule: controller.scheduleList.last, index: controller.scheduleList.length - 1);
                           },
                           child: const Text("+ 급식 스케쥴", style: TextStyle(fontSize: 18.0)))
@@ -127,8 +127,9 @@ class SchedulePage extends GetView<SchedulePageController> {
                               ),
                               Expanded(
                                   child: Switch(
-                                      onChanged: (value) {
+                                      onChanged: (value) async {
                                         controller.updateSchedule(i, controller.scheduleList[i].copyWith(isEnable: value));
+                                        await controller.postSchedule();
                                       },
                                       value: controller.scheduleList[i].isEnable))
                             ],
@@ -155,13 +156,15 @@ class ScheduleEditModal extends StatefulWidget {
   const ScheduleEditModal(this.schedule, {super.key, required this.index});
 
   final int index;
-  final FeedingSchedule schedule;
+  final Schedule schedule;
 
   @override
   State<ScheduleEditModal> createState() => _ScheduleEditModalState();
 }
 
 class _ScheduleEditModalState extends State<ScheduleEditModal> {
+  final ScheduleController _scheduleController = Get.find<ScheduleController>();
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -246,8 +249,10 @@ class _ScheduleEditModalState extends State<ScheduleEditModal> {
                         backgroundColor: Colors.red.withOpacity(0.3),
                         foregroundColor: Colors.red,
                         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0))),
-                    onPressed: () {
-                      Get.find<SchedulePageController>().scheduleList.removeAt(widget.index);
+                    onPressed: () async {
+                      _scheduleController.scheduleList.removeAt(widget.index);
+                      await _scheduleController.postSchedule();
+
                       Get.back();
                     },
                     child: const Text(
@@ -263,8 +268,10 @@ class _ScheduleEditModalState extends State<ScheduleEditModal> {
                     style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.blue.withOpacity(0.7),
                         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0))),
-                    onPressed: () {
-                      Get.find<SchedulePageController>().updateSchedule(widget.index, widget.schedule);
+                    onPressed: () async {
+                      _scheduleController.updateSchedule(widget.index, widget.schedule);
+                      await _scheduleController.postSchedule();
+
                       Get.back();
                     },
                     child: const Text(
