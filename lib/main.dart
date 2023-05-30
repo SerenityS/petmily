@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get/get.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:petmily/binding/dependency_binding.dart';
@@ -19,6 +20,9 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       initialBinding: DependencyBinding(),
       debugShowCheckedModeBanner: false,
+      localizationsDelegates: const [
+        GlobalMaterialLocalizations.delegate,
+      ],
       theme: ThemeData(
         colorSchemeSeed: const Color(0xFF8185E2),
         fontFamily: "SpoqaHanSansNeo",

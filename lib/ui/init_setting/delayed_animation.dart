@@ -6,13 +6,13 @@ class DelayedAnimation extends StatefulWidget {
   final Widget child;
   final int? delay;
 
-  DelayedAnimation({required this.child, this.delay});
+  const DelayedAnimation({super.key, required this.child, this.delay});
 
   @override
-  _DelayedAnimationState createState() => _DelayedAnimationState();
+  DelayedAnimationState createState() => DelayedAnimationState();
 }
 
-class _DelayedAnimationState extends State<DelayedAnimation> with TickerProviderStateMixin {
+class DelayedAnimationState extends State<DelayedAnimation> with TickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<Offset> _animOffset;
 

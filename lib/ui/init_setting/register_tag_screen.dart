@@ -39,9 +39,9 @@ class RegisterTagScreen extends StatelessWidget {
             ),
             GetX<BLEController>(builder: (controller) {
               if (controller.tagString.isEmpty) {
-                return DelayedAnimation(
+                return const DelayedAnimation(
                   delay: 500,
-                  child: const Text(
+                  child: Text(
                     "태그를 등록해주세요.",
                     style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30.0, color: color),
                   ),
@@ -49,9 +49,9 @@ class RegisterTagScreen extends StatelessWidget {
               } else {
                 return Column(
                   children: [
-                    DelayedAnimation(
+                    const DelayedAnimation(
                       delay: 500,
-                      child: const Text(
+                      child: Text(
                         "태그를 발견했습니다.",
                         style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30.0, color: color),
                       ),

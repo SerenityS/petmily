@@ -84,7 +84,7 @@ class FeedingPage extends GetView<FeedingPageController> {
                   children: [
                     TextSpan(text: pet.isMale ? "남" : "여"),
                     const TextSpan(text: " / "),
-                    TextSpan(text: "${pet.age}살"),
+                    //TextSpan(text: "${pet.age}살"),
                     const TextSpan(text: " / "),
                     TextSpan(text: "${pet.weight.toStringAsFixed(1)}kg"),
                   ],

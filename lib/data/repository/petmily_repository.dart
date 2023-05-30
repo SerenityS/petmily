@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:petmily/data/model/pet.dart';
 import 'package:petmily/data/provider/api.dart';
 
 class PetmilyRepository {
@@ -17,5 +18,13 @@ class PetmilyRepository {
 
   getPet(String token) async {
     return await apiClient.get(ApiType.petmily, token: token);
+  }
+
+  postPet(Pet pet, String token) async {
+    return await apiClient.post(ApiType.petmily, body: pet.toJson(), token: token);
+  }
+
+  postPetImage(String path, String chipId, String token) async {
+    return await apiClient.postPetImage(path, chipId: chipId, token: token);
   }
 }

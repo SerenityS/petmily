@@ -41,19 +41,19 @@ class FindDeviceScreen extends StatelessWidget {
             ),
             GetX<BLEController>(builder: (controller) {
               if (controller.isScanning.value && !controller.isFound.value) {
-                return DelayedAnimation(
+                return const DelayedAnimation(
                   delay: 500,
-                  child: const Text(
+                  child: Text(
                     "기기를 검색하는 중입니다.",
                     style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30.0, color: color),
                   ),
                 );
               } else if (controller.isFound.value) {
-                return Column(
+                return const Column(
                   children: [
                     DelayedAnimation(
                       delay: 500,
-                      child: const Text(
+                      child: Text(
                         "기기를 찾았습니다.",
                         style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30.0, color: color),
                       ),

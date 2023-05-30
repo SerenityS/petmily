@@ -4,8 +4,10 @@ import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 import 'package:get/get.dart';
+import 'package:petmily/controller/auth_controller.dart';
 import 'package:petmily/controller/wifi_controller.dart';
-import 'package:petmily/ui/init_setting/finish_setting_screen.dart';
+import 'package:petmily/data/model/pet.dart';
+import 'package:petmily/ui/init_setting/pet_setting_screen.dart';
 import 'package:petmily/ui/init_setting/register_tag_screen.dart';
 import 'package:petmily/ui/init_setting/wifi_setting_screen.dart';
 
@@ -54,11 +56,9 @@ class BLEController extends GetxController {
       flutterBlue.startScan(timeout: const Duration(seconds: 10));
       flutterBlue.scanResults.listen((results) {
         for (ScanResult r in results) {
-          print(r.device.name);
           if (r.device.name == "Petmily") {
             device = r;
             isFound.value = true;
-            print('${r.device.name} found! rssi: ${r.rssi}');
             flutterBlue.stopScan();
             connect();
           }
@@ -106,7 +106,6 @@ class BLEController extends GetxController {
     readChar!.setNotifyValue(false);
     device!.device.disconnect();
     deviceState = BluetoothDeviceState.disconnected;
-    Get.snackbar('Information', "Disconnected");
   }
 
   Future<void> findServices() async {
@@ -139,7 +138,6 @@ class BLEController extends GetxController {
           for (int tagInt in tagData) {
             tagString.value += tagInt.toRadixString(16).padLeft(2, '0');
           }
-          print("tagStr: ${tagString.value.toUpperCase().substring(8, 24)}");
           tagData.clear();
 
           await disableNotify();
@@ -162,9 +160,19 @@ class BLEController extends GetxController {
           _wifiController.isConnected.value = true;
           _wifiController.isConnecting.value = false;
 
-          await Future.delayed(const Duration(seconds: 3)).then((_) async {
+          Pet tempPet = Pet(
+              userId: Get.find<AuthController>().me!.id,
+              chipId: json.decode(wifiJson)["chip_id"],
+              name: "",
+              isMale: true,
+              birth: DateTime.now(),
+              weight: 0,
+              petType: 1,
+              feedKcal: 0);
+
+          await Future.delayed(const Duration(seconds: 5)).then((_) async {
             await disableNotify();
-            Get.to(() => FinishSettingScreen(), transition: Transition.fadeIn);
+            Get.offAll(() => const PetSettingScreen(), arguments: tempPet, transition: Transition.fadeIn);
           });
         }
       }

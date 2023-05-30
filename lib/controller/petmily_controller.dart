@@ -33,7 +33,6 @@ class PetmilyController extends GetxController {
       final response = await repository.getDeviceData(petList[0].chipId, user.jwt);
       _deviceData.value = DeviceData.fromMap(jsonDecode(response));
     } catch (e) {
-      print("Error");
       debugPrint(e.toString());
     }
   }
@@ -47,6 +46,27 @@ class PetmilyController extends GetxController {
     } catch (e) {
       debugPrint(e.toString());
       return [];
+    }
+  }
+
+  postPet(Pet pet) async {
+    try {
+      User user = Get.find<AuthController>().user!;
+      final response = await repository.postPet(pet, user.jwt);
+      return response;
+    } catch (e) {
+      debugPrint(e.toString());
+    }
+  }
+
+  Future<String> postPetImage(String path, String chipId) async {
+    try {
+      User user = Get.find<AuthController>().user!;
+      final response = await repository.postPetImage(path, chipId, user.jwt);
+      return response;
+    } catch (e) {
+      debugPrint(e.toString());
+      return "";
     }
   }
 }

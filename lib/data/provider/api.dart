@@ -69,6 +69,26 @@ class MyApiClient {
     }
   }
 
+  Future<String> postPetImage(String path, {required String chipId, required String token}) async {
+    try {
+      http.MultipartRequest request = http.MultipartRequest('POST', Uri.parse("${APIEndpoint.apiUrl}/petmily/image?chip_id=$chipId"));
+
+      request.headers.addAll({"Authorization": "Bearer $token"});
+
+      request.files.add(await http.MultipartFile.fromPath('file', path));
+
+      http.StreamedResponse response = await request.send();
+
+      String imageUrl = await response.stream.bytesToString();
+
+      return imageUrl;
+    } on TimeOutException catch (_) {
+      throw TimeOutException('TimeOut');
+    } on SocketException {
+      throw FetchDataException('No Internet connection');
+    }
+  }
+
   dynamic _returnResponse(http.Response response) {
     switch (response.statusCode) {
       case 200:

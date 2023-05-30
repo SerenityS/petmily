@@ -5,11 +5,13 @@ import 'package:petmily/ui/init_setting/delayed_animation.dart';
 import 'package:petmily/ui/init_setting/find_device_screen.dart';
 
 class InitSettingScreen extends StatefulWidget {
+  const InitSettingScreen({super.key});
+
   @override
-  _InitSettingScreenState createState() => _InitSettingScreenState();
+  InitSettingScreenState createState() => InitSettingScreenState();
 }
 
-class _InitSettingScreenState extends State<InitSettingScreen> with SingleTickerProviderStateMixin {
+class InitSettingScreenState extends State<InitSettingScreen> with SingleTickerProviderStateMixin {
   final int delayedAmount = 500;
 
   @override

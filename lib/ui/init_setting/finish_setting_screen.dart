@@ -1,13 +1,18 @@
 import 'package:avatar_glow/avatar_glow.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:petmily/binding/main_screen_binding.dart';
 import 'package:petmily/ui/init_setting/delayed_animation.dart';
+import 'package:petmily/ui/main/main_screen.dart';
 
 class FinishSettingScreen extends StatefulWidget {
+  const FinishSettingScreen({super.key});
+
   @override
-  _FinishSettingScreenState createState() => _FinishSettingScreenState();
+  FinishSettingScreenState createState() => FinishSettingScreenState();
 }
 
-class _FinishSettingScreenState extends State<FinishSettingScreen> with SingleTickerProviderStateMixin {
+class FinishSettingScreenState extends State<FinishSettingScreen> with SingleTickerProviderStateMixin {
   final int delayedAmount = 500;
 
   @override
@@ -66,7 +71,9 @@ class _FinishSettingScreenState extends State<FinishSettingScreen> with SingleTi
                       height: 60.0,
                       child: ElevatedButton(
                           style: ElevatedButton.styleFrom(backgroundColor: color),
-                          onPressed: () {},
+                          onPressed: () {
+                            Get.offAll(() => MainScreen(), binding: MainScreenBinding(), transition: Transition.fadeIn);
+                          },
                           child: const Text(
                             "시작하기",
                             style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold, color: Colors.black),

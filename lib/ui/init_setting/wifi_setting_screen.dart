@@ -70,25 +70,25 @@ class WifiSettingScreen extends StatelessWidget {
             ),
             GetX<WifiController>(builder: (controller) {
               if (!controller.isConnected.value && !controller.isConnecting.value) {
-                return DelayedAnimation(
+                return const DelayedAnimation(
                   delay: 500,
-                  child: const Text(
+                  child: Text(
                     "Wifi를 설정합니다.",
                     style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30.0, color: color),
                   ),
                 );
               } else if (controller.isConnecting.value) {
-                return DelayedAnimation(
+                return const DelayedAnimation(
                   delay: 500,
-                  child: const Text(
+                  child: Text(
                     "Wifi 연결 중입니다.",
                     style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30.0, color: color),
                   ),
                 );
               } else {
-                return DelayedAnimation(
+                return const DelayedAnimation(
                   delay: 500,
-                  child: const Text(
+                  child: Text(
                     "Wifi 연결 성공!",
                     style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30.0, color: color),
                   ),

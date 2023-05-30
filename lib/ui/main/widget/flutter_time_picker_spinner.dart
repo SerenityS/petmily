@@ -30,9 +30,11 @@ class ItemScrollPhysics extends ScrollPhysics {
 
   double _getTargetPixels(ScrollPosition position, Tolerance tolerance, double velocity) {
     double item = _getItem(position);
-    if (velocity < -tolerance.velocity)
+    if (velocity < -tolerance.velocity) {
       item -= targetPixelsLimit;
-    else if (velocity > tolerance.velocity) item += targetPixelsLimit;
+    } else if (velocity > tolerance.velocity) {
+      item += targetPixelsLimit;
+    }
     return _getPixels(position, item.roundToDouble());
   }
 
@@ -71,7 +73,7 @@ class TimePickerSpinner extends StatefulWidget {
   final bool isForce2Digits;
   final TimePickerCallback? onTimeChange;
 
-  TimePickerSpinner(
+  const TimePickerSpinner(
       {Key? key,
       this.time,
       this.minutesInterval = 1,
@@ -89,10 +91,10 @@ class TimePickerSpinner extends StatefulWidget {
       : super(key: key);
 
   @override
-  _TimePickerSpinnerState createState() => _TimePickerSpinnerState();
+  TimePickerSpinnerState createState() => TimePickerSpinnerState();
 }
 
-class _TimePickerSpinnerState extends State<TimePickerSpinner> {
+class TimePickerSpinnerState extends State<TimePickerSpinner> {
   ScrollController hourController = ScrollController();
   ScrollController minuteController = ScrollController();
   ScrollController secondController = ScrollController();
@@ -108,8 +110,8 @@ class _TimePickerSpinnerState extends State<TimePickerSpinner> {
   bool isAPScrolling = false;
 
   /// default settings
-  TextStyle defaultHighlightTextStyle = TextStyle(fontSize: 32, color: Colors.black);
-  TextStyle defaultNormalTextStyle = TextStyle(fontSize: 32, color: Colors.black54);
+  TextStyle defaultHighlightTextStyle = const TextStyle(fontSize: 32, color: Colors.black);
+  TextStyle defaultNormalTextStyle = const TextStyle(fontSize: 32, color: Colors.black54);
   double defaultItemHeight = 60;
   double defaultItemWidth = 45;
   double defaultSpacing = 20;
@@ -118,11 +120,11 @@ class _TimePickerSpinnerState extends State<TimePickerSpinner> {
   /// getter
 
   TextStyle? _getHighlightedTextStyle() {
-    return widget.highlightedTextStyle != null ? widget.highlightedTextStyle : defaultHighlightTextStyle;
+    return widget.highlightedTextStyle ?? defaultHighlightTextStyle;
   }
 
   TextStyle? _getNormalTextStyle() {
-    return widget.normalTextStyle != null ? widget.normalTextStyle : defaultNormalTextStyle;
+    return widget.normalTextStyle ?? defaultNormalTextStyle;
   }
 
   int _getHourCount() {
@@ -138,19 +140,19 @@ class _TimePickerSpinnerState extends State<TimePickerSpinner> {
   }
 
   double? _getItemHeight() {
-    return widget.itemHeight != null ? widget.itemHeight : defaultItemHeight;
+    return widget.itemHeight ?? defaultItemHeight;
   }
 
   double? _getItemWidth() {
-    return widget.itemWidth != null ? widget.itemWidth : defaultItemWidth;
+    return widget.itemWidth ?? defaultItemWidth;
   }
 
   double? _getSpacing() {
-    return widget.spacing != null ? widget.spacing : defaultSpacing;
+    return widget.spacing ?? defaultSpacing;
   }
 
   AlignmentGeometry? _getAlignment() {
-    return widget.alignment != null ? widget.alignment : defaultAlignment;
+    return widget.alignment ?? defaultAlignment;
   }
 
   bool isLoop(int value) {
@@ -167,7 +169,7 @@ class _TimePickerSpinnerState extends State<TimePickerSpinner> {
 
   @override
   void initState() {
-    currentTime = widget.time == null ? DateTime.now() : widget.time;
+    currentTime = widget.time ?? DateTime.now();
 
     currentSelectedHourIndex = (currentTime!.hour % (widget.is24HourMode ? 24 : 12)) + _getHourCount();
     hourController = ScrollController(initialScrollOffset: (currentSelectedHourIndex - 1) * _getItemHeight()!);
@@ -266,7 +268,7 @@ class _TimePickerSpinnerState extends State<TimePickerSpinner> {
   }
 
   Widget spacer() {
-    return Container(
+    return SizedBox(
       width: _getSpacing(),
       height: _getItemHeight()! * 3,
     );
@@ -279,7 +281,7 @@ class _TimePickerSpinnerState extends State<TimePickerSpinner> {
     /// flutter: Another exception was thrown: 'package:flutter/src/widgets/scrollable.dart': Failed assertion: line 469 pos 12: '_hold == null || _drag == null': is not true.
     /// maybe later we can find out why this error is happening
 
-    Widget _spinner = NotificationListener<ScrollNotification>(
+    Widget spinner = NotificationListener<ScrollNotification>(
       onNotification: (scrollNotification) {
         if (scrollNotification is UserScrollNotification) {
           if (scrollNotification.direction.toString() == "ScrollDirection.idle") {
@@ -339,7 +341,7 @@ class _TimePickerSpinnerState extends State<TimePickerSpinner> {
 
     return Stack(
       children: <Widget>[
-        Positioned.fill(child: _spinner),
+        Positioned.fill(child: spinner),
         isScrolling
             ? Positioned.fill(
                 child: Container(
@@ -351,7 +353,7 @@ class _TimePickerSpinnerState extends State<TimePickerSpinner> {
   }
 
   Widget apSpinner() {
-    Widget _spinner = NotificationListener<ScrollNotification>(
+    Widget spinner = NotificationListener<ScrollNotification>(
       onNotification: (scrollNotification) {
         if (scrollNotification is UserScrollNotification) {
           if (scrollNotification.direction.toString() == "ScrollDirection.idle") {
@@ -390,7 +392,7 @@ class _TimePickerSpinnerState extends State<TimePickerSpinner> {
     );
 
     return Stack(
-      children: <Widget>[Positioned.fill(child: _spinner), isAPScrolling ? Positioned.fill(child: Container()) : Container()],
+      children: <Widget>[Positioned.fill(child: spinner), isAPScrolling ? Positioned.fill(child: Container()) : Container()],
     );
   }
 }
