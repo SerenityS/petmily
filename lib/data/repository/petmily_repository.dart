@@ -9,7 +9,7 @@ class PetmilyRepository {
   PetmilyRepository({required this.apiClient});
 
   feeding(int amount, String chipId, String token) async {
-    return await apiClient.post(ApiType.ws, body: jsonEncode({"chip_id": chipId, "command": "feed", "amount": amount}), token: token);
+    return await apiClient.post(ApiType.ws, body: jsonEncode({"chip_id": chipId, "command": "feed", "feed_amount": amount}), token: token);
   }
 
   getDeviceData(String chipId, String token) async {
