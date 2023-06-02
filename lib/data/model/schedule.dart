@@ -12,7 +12,7 @@ class Schedule {
   factory Schedule.fromMap(Map<String, dynamic> map) {
     return Schedule(
       isEnable: map['is_enable'] as bool,
-      date: DateTime.fromMillisecondsSinceEpoch(map['date'] as int),
+      date: DateTime.parse(map['date']),
       amount: map['amount'] as int,
     );
   }
@@ -41,7 +41,7 @@ class Schedule {
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
       'is_enable': isEnable,
-      'date': date.millisecondsSinceEpoch,
+      'date': date.toIso8601String(),
       'amount': amount,
     };
   }
